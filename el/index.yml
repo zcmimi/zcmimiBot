@@ -19,9 +19,10 @@ plugins:
     - ./custom-plugins/AntiRecall/index
     - ./custom-plugins/SearchEngine/index
     - ./custom-plugins/latex/index
-    - ./custom-plugins/tts/index
+    - ./custom-plugins/game/numberBomb/index
+    # - ./custom-plugins/tts/index
     - ./custom-plugins/zuan/index
-    - ./custom-plugins/test/index
+    # - ./custom-plugins/test/index
     - ./node_modules/el-bot-plugin-music/index
 
 master:
@@ -56,7 +57,7 @@ answer:
       - type: Image
         url: http://gchat.qpic.cn/gchatpic_new/3088482189/1061894947-2808084068-F615C48AB6615E832A64B7768624406D/0?term=2
   - 
-    re: "问号|\\?|？|¿"
+    re: "^(问号|\\?|？|¿)"
     reply:
       - type: Image
         url: http://c2cpicdw.qpic.cn/offpic_new/3088482189//3088482189-2190294967-1F1A6490EBEB828FF76973027BF39BD5/0?term=2
