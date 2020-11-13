@@ -1,0 +1,170 @@
+plugins:
+  default:
+    - rss
+    - answer
+    # - limit
+    - forward
+    # - dev
+    # - github
+    # - qrcode
+    # - teach
+  official:
+    - hitokoto
+    - niubi
+    - setu
+    - search-image
+    - search-anime
+    # - counter
+  custom:
+    - ./custom-plugins/AntiRecall/index
+    - ./custom-plugins/SearchEngine/index
+    - ./custom-plugins/latex/index
+    - ./custom-plugins/tts/index
+    - ./custom-plugins/zuan/index
+    - ./custom-plugins/test/index
+    - ./node_modules/el-bot-plugin-music/index
+
+master:
+  - 3088482189
+
+admin:
+  # - 666666
+  # - 114514
+
+rss:
+  - name: zcmimi's blog
+    url: https://blog.zcmimi.top/atom.xml
+    # cron: "*/1 * * * *"
+    customFields:
+      item:
+        - updated
+        - summary
+    content:
+      - 标题：${item.title}
+      - 链接：${item.link}
+      - 时间：${item.updated}
+    target:
+      group:
+        # El Psy Congroo
+        - 1061894947
+
+# 消息应答
+answer:
+  - 
+    re: 吃惊|惊了|啊这|az
+    reply:
+      - type: Image
+        url: http://gchat.qpic.cn/gchatpic_new/3088482189/1061894947-2808084068-F615C48AB6615E832A64B7768624406D/0?term=2
+  - 
+    re: "问号|\\?|？|¿"
+    reply:
+      - type: Image
+        url: http://c2cpicdw.qpic.cn/offpic_new/3088482189//3088482189-2190294967-1F1A6490EBEB828FF76973027BF39BD5/0?term=2
+  - 
+    re: (.+)妈|马|🐎|wdnmd
+    reply:
+      - type: Plain
+        text: 我日你亲妈妈
+  - 
+    re: 早呀|早上|哦哈呦|哦哈哟|起床啦
+    reply:
+      - type: Plain
+        text: 新的一天也要加油鸭
+  - 
+    includes:
+      - 土味
+      - 情话
+    api: https://api.lovelive.tools/api/SweetNothings/2/Serialization/Json
+    reply: ${data['returnObj']}
+  - 
+    at: true
+    includes: 在吗
+    reply: 我在
+  - 
+    at: true
+    re: 挨打|认错
+    reply: 我错了qwq
+  - 
+    includes:
+      - bing
+      - 壁纸
+    reply:
+      - type: Image
+        url: https://images.weserv.nl/?url=https://bing.ioliu.cn/v1/rand
+
+# forward:
+#   listen:
+#     # friend: 
+#     group: 
+#     - 1061894947
+
+#   target:
+#     # friend: 
+#     group: 
+#     - 606084707
+
+niubi:
+  url: https://el-bot-api.vercel.app/api/words/niubi
+  match:
+    - re: 来点(\S*)笑话
+    - includes: nb
+
+setu:
+  url: https://el-bot-api.vercel.app/api/setu
+  # url: https://api.lolicon.app/setu/
+  # proxy: https://images.weserv.nl/?url=
+  match:
+  - re: 不够色
+  - re: (.*)来(.*)(色图|涩图)(.*)
+  # reply: 不够色?
+
+search-image:
+  token: xxx
+  options:
+    results: 3 # 返回多少个结果
+
+search-anime:
+  token: null
+
+SearchEngine:
+  baidu:
+    re: "(百度|/baidu) (.+)"
+  google: 
+    re: "(谷歌|/google) (.+)"
+    proxy: http://127.0.0.1:7890
+
+latex:
+  re: "/latex (.+)"
+
+AntiRecall:
+  re: "防撤回|AntiRecall"
+  auto: 
+    group:
+      - 606084707
+      # - 1061894947
+    friend:
+      - 3088482189
+
+hitokoto:
+  cron: 0 * * * *
+  target:
+    group:
+      - 606084707
+  match:
+    - re: /hitokoto|一言
+    - includes: 
+      - 来句
+      - 骚话
+  params:
+    # c: 
+    # encode: 
+    # charset: 
+    # callback: 
+    # select: 
+    # min_length: 
+    # max_length: 
+
+counter:
+  - re: 草|艹|🌿|cao|Cao
+    command: 百草园
+    reply: 今天已种下了 ${data.today} 根草，百草园里已有 ${data.total} 根草啦。
