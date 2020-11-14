@@ -54,6 +54,10 @@ module.exports=(ctx)=>{
         if(msg.type!="GroupMessage")return;
         var match,groupId=msg.sender.group.id,senderId=msg.sender.id;
         if(msg.plain.match(rule.create)){
+            if(groups[groupId]){
+                msg.reply([Message.At(senderId),Message.Plain('请先退出')]);
+                return;
+            }
             groups[groupId]=new game(1,100);
             groups[groupId].join(senderId);
             msg.reply([Message.Plain("已创建\n玩家列表: "),Message.At(senderId)]);
@@ -82,7 +86,7 @@ module.exports=(ctx)=>{
                     return;
                 }
                 var res=groups[groupId].select(Number(match.pop()));
-                if(res)msg.reply([Message.At(res.ID),Message.Plain(`[${res.L},${res.R}]`)]);
+                if(res)msg.reply([Message.At(res.ID),Message.Plain(` [${res.L}, ${res.R}]`)]);
                 else{
                     msg.reply([Message.At(senderId),Message.Plain('恭喜中奖')]);
                     groups[groupId]=false;
@@ -93,6 +97,9 @@ module.exports=(ctx)=>{
         else if(match=msg.plain.match(rule.exit)){
             groups[groupId]=false;
             msg.reply("已退出");
+        }
+        else if(msg.plain.match(rule.help)){
+            
         }
     });
 };
