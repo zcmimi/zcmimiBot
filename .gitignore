@@ -13,7 +13,7 @@ log/
 # mirai
 *.jar
 content/
-device.json
+# device.json
 libraries/
 bot.yml
 mirai/data
