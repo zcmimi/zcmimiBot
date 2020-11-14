@@ -8,6 +8,10 @@ var numberBomb={
     start:{re:"数字炸弹 开始"},
     select:{re:"数字炸弹 选择 ([0-9]+)"},
     exit:{re:"数字炸弹 退出"},
+    help:
+`
+数字炸弹 创建
+`
 };
 class game{
     constructor(L,R,V=false){
@@ -52,11 +56,16 @@ module.exports=(ctx)=>{
         if(msg.plain.match(rule.create)){
             groups[groupId]=new game(1,100);
             groups[groupId].join(senderId);
-            msg.reply("已创建");
+            msg.reply([Message.Plain("已创建\n玩家列表: "),Message.At(senderId)]);
         }
         else if(msg.plain.match(rule.join)){
-            if(groups[groupId])
+            if(groups[groupId]){
                 groups[groupId].join(senderId);
+                var messageChain=[Message.Plain("已加入\n玩家列表: ")];
+                for(var i of groups[groupId].players)
+                    messageChain.push(Message.At(i));
+                msg.reply(messageChain);
+            }
             else msg.reply("请先创建");
         }
         else if(match=msg.plain.match(rule.start)){

@@ -4,7 +4,9 @@
   "description": "el-bot 的快速启动模版",
   "private": true,
   "main": "bot/index.js",
-  "mirai": {"folder": "mirai"},
+  "mirai": {
+    "folder": "mirai"
+  },
   "scripts": {
     "bot": "nodemon --exec el bot",
     "dev": "nodemon --exec el bot",
