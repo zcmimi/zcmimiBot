@@ -10,12 +10,16 @@
   "scripts": {
     "bot": "nodemon --exec el bot",
     "dev": "nodemon --exec el bot",
-    "mirai": "cd mirai && java -jar mirai-console-wrapper-1.3.0.jar --update KEEP",
+    "mirai": "cd mirai && java -jar mirai-console-wrapper-0.1.1.jar --update KEEP",
     "start": "el start",
     "start:bot": "el start bot",
     "start:mirai": "el start mirai",
     "install:mirai": "el install mirai",
-    "lint": "eslint --fix . && prettier --write ."
+    "lint": "eslint --fix . && prettier --write .",
+    "forever:bot":"forever start bot/index.js",
+    "forever:bot restart":"forever restart bot/index.js",
+    "forever:mirai":"forever start bot/index.js",
+    "forever:mirai restart":"forever start bot/index.js"
   },
   "repository": {
     "type": "git",

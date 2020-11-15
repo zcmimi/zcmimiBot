@@ -20,7 +20,7 @@ class game{
         this.V=V;
         this.players=[];this.now=0;
     }
-    join(ID){this.players.push(ID);}
+    join(ID){if(!this.players.includes(ID))this.players.push(ID);}
     get ID(){return this.players[this.now];}
     start(){
         return {
@@ -32,7 +32,7 @@ class game{
         if(v==this.V)return false;
         else if(v<this.L||v>this.R)return this.start();
         else{
-            if(v<this.V)this.L=v;else this.R=v;
+            if(v<this.V)this.L=v+1;else this.R=v-1;
             this.now=(this.now+1)%this.players.length;
             return this.start();
         }

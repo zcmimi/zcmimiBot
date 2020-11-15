@@ -1,0 +1,12 @@
+[Unit]
+Description=zcmimiBot
+Requires=mirai.service
+
+[Service]
+Type=forking
+WorkingDirectory=/root/zcmimiBot/
+ExecStart=/root/zcmimiBot/startBot.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

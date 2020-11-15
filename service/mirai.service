@@ -1,0 +1,11 @@
+[Unit]
+Description=Mirai
+
+[Service]
+Type=forking
+WorkingDirectory=/root/zcmimiBot/
+ExecStart=/root/zcmimiBot/startMirai.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

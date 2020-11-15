@@ -2,7 +2,7 @@
 const {utils}=require("el-bot");
 const {Message}=require("mirai-ts");
 const request=require("superagent");
-
+require('superagent-proxy')(request);
 var SearchEngine={
     google:{
         proxy:"http://127.0.0.1:7890",
@@ -39,7 +39,6 @@ module.exports=(ctx)=>{
     const config=ctx.el.config;
     const mirai=ctx.mirai;
     SearchEngine={...SearchEngine,...config.SearchEngine};
-    if(SearchEngine.google.proxy)require('superagent-proxy')(request);
     const rule={
         google:new RegExp(SearchEngine.google.re,'i'),
         baidu:new RegExp(SearchEngine.baidu.re,'i')
@@ -50,7 +49,7 @@ module.exports=(ctx)=>{
             keyword=match.pop();
             msg.reply(`正在百度 "${keyword}" , 请稍等...`);
             try{var res=await baidu(keyword);}
-            catch(e){console.log(e);msg.reply("出错了,请重试qwq");}
+            catch(e){console.log(e);msg.reply("出错了,请重试qwq");return;}
             for(var i of res)
                 try{msg.reply(`${i.title}: ${i.url}`);}
                 catch(e){console.log(e,i);}            
@@ -60,7 +59,8 @@ module.exports=(ctx)=>{
             keyword=match.pop();
             msg.reply(`正在谷歌 "${keyword}" , 请稍等...`);
             try{var res=await google(keyword);}
-            catch(e){console.log(e);msg.reply("出错了,请重试qwq");}
+            catch(e){console.log(e);msg.reply("出错了,请重试qwq");return;}
+            console.log(res);
             for(var i of res)
                 try{msg.reply(`${i.title}: ${i.url}`);}
                 catch(e){console.log(e,i);}            
