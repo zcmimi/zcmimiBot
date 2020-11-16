@@ -16,10 +16,10 @@
     "start:mirai": "el start mirai",
     "install:mirai": "el install mirai",
     "lint": "eslint --fix . && prettier --write .",
-    "forever:bot":"forever start bot/index.js",
-    "forever:bot restart":"forever restart bot/index.js",
-    "forever:mirai":"forever start bot/index.js",
-    "forever:mirai restart":"forever start bot/index.js"
+    "forever:bot": "forever start bot/index.js",
+    "forever:bot restart": "forever restart bot/index.js",
+    "forever:mirai": "forever start bot/index.js",
+    "forever:mirai restart": "forever start bot/index.js"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,9 @@
     "@el-bot/plugin-setu": "0.0.12",
     "el-bot": "^0.5.16",
     "el-bot-plugin-music": "0.0.5",
+    "google-tts-api": "0.0.5",
     "mathjax-node": "^2.1.1",
+    "node-telegram-bot-api": "^0.50.0",
     "sharp": "^0.26.2",
     "superagent": "^6.1.0",
     "superagent-proxy": "^2.1.0"

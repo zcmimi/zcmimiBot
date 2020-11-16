@@ -1,9 +1,9 @@
 "use strict";
 const {Message}=require("mirai-ts");
-const googleTTS = require('./google-tts-api/index');
+const googleTTS = require('google-tts-api');
 const request=require("superagent");
 const fs=require('fs');
-const fff=require('fluent-ffmpeg');
+const {exec, execSync}=require('child_process');
 
 function hasCN(str){return /.*[\u4e00-\u9fa5]+.*$/.test(str);}
 function hasJP(str){return /.*[\u3040-\u309F\u30A0-\u30FF]+.*$/.test(str);}
@@ -26,41 +26,31 @@ const headers={
 async function trans(src,dst){
     await fff(src).save(dst);
 }
-module.exports=(ctx)=>{
+module.exports=async(ctx)=>{
     const config=ctx.el.config;
     const mirai=ctx.mirai;
-    const rule=new RegExp("/tts (\\S+)","g");
-    mirai.on("message",(msg)=>{
-        var x=false;
-        while(x=rule.exec(msg.plain)){
+    const rule=new RegExp("/tts (.+)");
+    mirai.on("message",async(msg)=>{
+        var match;
+        if(match=msg.plain.match(rule)){
             // msg.reply(`正在tts "${x[x.length-1]}" , 请稍等...`);
-            var text=x[x.length-1];
-            // msg.reply([Message.Voice(null,baidu(text))]);
-            // request.get(baidu(text)).set(headers).end(async(err,res)=>{
-            //     fs.writeFileSync('./tmp/tts.mp3',res.body);
-            //     var voice=await mirai.api.uploadVoice(
-            //         msg.type=='GroupMessage'?"group":"friend",
-            //         fs.createReadStream('./tmp/tts.mp3')
-            //     );
-            //     console.log(voice);
-            //     msg.reply([Message.Voice(voice.voiceId)]);
-            // });
-            // return;
-            try{google(x[x.length-1]).then(url=>{
-                console.log(url);
-                request.get(url).set(headers).end(async(err,res)=>{
-                    fs.writeFileSync('./tmp/tts.mpga',res.body);
-                    await trans('./tmp/tts.mpga','./tmp/tts.amr');
-                    
-                    var voice=await mirai.api.uploadVoice(
-                        msg.type=='GroupMessage'?"group":"friend",
-                        fs.createReadStream('./tmp/tts.amr')
-                    );
-                    console.log(voice);
-                    msg.reply([Message.Voice(voice.voiceId)]);
-                });
-            });}
+            var text=match.pop();
+            // var url=baidu(text);
+            try{var url=await google(text);}
             catch(e){console.log(e);msg.reply("出错了,请重试qwq");}
+            reply(url);
+        }
+        function reply(url){
+            request.get(url).set(headers).end(async(err,res)=>{
+                fs.writeFileSync('./tmp/tts.mp3',res.body);
+                execSync("ffmpeg -i ./tmp/tts.mp3 -ac 1 -ar 8000 ./tmp/tts.amr -y");
+                var voice=await mirai.api.uploadVoice(
+                    msg.type=='GroupMessage'?"group":"friend",
+                    fs.createReadStream('./tmp/tts.amr')
+                );
+                console.log(voice);
+                msg.reply([Message.Voice(voice.voiceId)]);
+            });
         }
     });
 };

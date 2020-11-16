@@ -1,16 +1,16 @@
 "use strict";
 const {Message}=require("mirai-ts");
-const fs=require("fs");
-const { group } = require("console");
 var numberBomb={
     create:{re:"数字炸弹 创建"},
     join:{re:"数字炸弹 加入"},
     start:{re:"数字炸弹 开始"},
     select:{re:"数字炸弹 选择 ([0-9]+)"},
-    exit:{re:"数字炸弹 退出"},
+    cancle:{re:"数字炸弹 取消"},
     help:
 `
-数字炸弹 创建
+在[1,100]内随机一个数作为炸弹
+玩家轮流选中一个数以缩小范围,选到炸弹者中奖
+使用方法: 数字炸弹 创建/加入/开始/选择 <数字>/取消
 `
 };
 class game{
@@ -38,7 +38,7 @@ class game{
         }
     }
 }
-module.exports=(ctx)=>{
+module.exports=async(ctx)=>{
     const config=ctx.el.config;
     const mirai=ctx.mirai;
     numberBomb={...numberBomb,...config.numberBomb};
@@ -47,10 +47,10 @@ module.exports=(ctx)=>{
         join:new RegExp(numberBomb.join.re),
         start:new RegExp(numberBomb.start.re),
         select:new RegExp(numberBomb.select.re),
-        exit:new RegExp(numberBomb.exit.re),
+        cancle:new RegExp(numberBomb.cancle.re),
     }
     var groups={};
-    mirai.on("message",(msg)=>{
+    mirai.on("message",async(msg)=>{
         if(msg.type!="GroupMessage")return;
         var match,groupId=msg.sender.group.id,senderId=msg.sender.id;
         if(msg.plain.match(rule.create)){
@@ -94,7 +94,7 @@ module.exports=(ctx)=>{
             }
             else msg.reply("请先创建");
         }
-        else if(match=msg.plain.match(rule.exit)){
+        else if(match=msg.plain.match(rule.cancle)){
             groups[groupId]=false;
             msg.reply("已退出");
         }

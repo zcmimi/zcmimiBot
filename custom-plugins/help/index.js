@@ -9,11 +9,11 @@ var helpText=
 一言
 土味情话
 /latex <LATEX表达式>
-数字炸弹 创建/加入/开始/选择 <数字>/退出
+数字炸弹 创建/加入/开始/选择 <数字>/取消
 `
-module.exports = (ctx) => {
+module.exports = async(ctx) => {
     const mirai = ctx.mirai;
-    mirai.on("message", (msg) => {
-        if (msg.plain == 'help')msg.reply(helpText);
+    mirai.on("message", async(msg) => {
+        if (msg.plain=='help')msg.reply(helpText);
     });
 };

@@ -5,7 +5,7 @@ const fs=require("fs");
 var latex={
     re:"/latex (.+)"
 };
-module.exports=(ctx)=>{
+module.exports=async(ctx)=>{
     const config=ctx.el.config;
     const mirai=ctx.mirai;
     latex={...latex,...config.latex};

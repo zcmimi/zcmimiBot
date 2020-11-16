@@ -20,9 +20,10 @@ plugins:
     - ./custom-plugins/SearchEngine/index
     - ./custom-plugins/latex/index
     - ./custom-plugins/game/numberBomb/index
-    # - ./custom-plugins/tts/index
+    - ./custom-plugins/tts/index
     - ./custom-plugins/zuan/index
     - ./custom-plugins/help/index
+    - ./custom-plugins/test/index
     - ./node_modules/el-bot-plugin-music/index
 
 master:
@@ -72,9 +73,7 @@ answer:
       - type: Plain
         text: 新的一天也要加油鸭
   - 
-    includes:
-      - 土味
-      - 情话
+    includes: [土味,情话]
     api: https://api.lovelive.tools/api/SweetNothings/2/Serialization/Json
     reply: ${data['returnObj']}
   - 
@@ -86,9 +85,7 @@ answer:
     re: 挨打|认错
     reply: 我错了qwq
   - 
-    includes:
-      - bing
-      - 壁纸
+    includes: [bing,壁纸]
     reply:
       - type: Image
         url: https://images.weserv.nl/?url=https://bing.ioliu.cn/v1/rand
@@ -107,7 +104,7 @@ answer:
 niubi:
   url: https://el-bot-api.vercel.app/api/words/niubi
   match:
-    - re: 来点(\S*)笑话
+    - re: 来[点份](\S*)笑话
     - includes: nb
 
 setu:
@@ -140,30 +137,27 @@ latex:
 AntiRecall:
   re: "防撤回|AntiRecall"
   auto: 
-    group:
-      - 606084707
-      # - 1061894947
-    friend:
-      - 3088482189
+    group: [606084707]
 
 hitokoto:
   cron: 0 * * * *
   target:
-    group:
-      - 606084707
+    group: [606084707]
   match:
     - re: /hitokoto|一言
-    - includes: 
-      - 来句
-      - 骚话
-  params:
-    # c: 
-    # encode: 
-    # charset: 
-    # callback: 
-    # select: 
-    # min_length: 
-    # max_length: 
+    - includes: [来句,骚话]
+
+numberBomb:
+  create: 
+    re: 数字炸弹 创建
+  join: 
+    re: 数字炸弹 加入
+  start:
+    re: 数字炸弹 开始
+  select:
+    re: 数字炸弹 选择 ([0-9]+)
+  cancle: 
+    re: 数字炸弹 取消
 
 counter:
   - re: 草|艹|🌿|cao|Cao

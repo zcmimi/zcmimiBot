@@ -35,7 +35,7 @@ async function google(keyword){
         res.push({title:x[3],url:x[1]});
     return res;
 }
-module.exports=(ctx)=>{
+module.exports=async(ctx)=>{
     const config=ctx.el.config;
     const mirai=ctx.mirai;
     SearchEngine={...SearchEngine,...config.SearchEngine};
