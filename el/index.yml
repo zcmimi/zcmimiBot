@@ -23,7 +23,7 @@ plugins:
     - ./custom-plugins/tts/index
     - ./custom-plugins/zuan/index
     - ./custom-plugins/help/index
-    - ./custom-plugins/test/index
+    # - ./custom-plugins/test/index
     - ./node_modules/el-bot-plugin-music/index
 
 master:
@@ -63,7 +63,7 @@ answer:
       - type: Image
         url: http://c2cpicdw.qpic.cn/offpic_new/3088482189//3088482189-2190294967-1F1A6490EBEB828FF76973027BF39BD5/0?term=2
   - 
-    re: (.+)妈|马|🐎|🐴|wdnmd
+    re: (妈|马|🐎|🐴|wdnmd)$
     reply:
       - type: Plain
         text: 我日你亲妈妈
